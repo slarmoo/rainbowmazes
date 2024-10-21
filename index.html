@@ -440,6 +440,17 @@
     </div>
     <div class="group">
       <div>
+        hue start:
+        <button type="button" class="tooltip" aria-label="Display tooltip">
+          <span class="tooltiptext">
+            Determines what the starting hue of the shift is
+          </span>
+        </button>
+      </div>
+      <input type="range" name="hueStart" min="0" max="1" step="0.01" value="0" />
+    </div>
+    <div class="group">
+      <div>
         hue shift type:
         <button type="button" class="tooltip" aria-label="Display tooltip">
           <span class="tooltiptext">
@@ -800,6 +811,7 @@ function stepAnimation() {
 
 function render() {
   const hueShift = Math.pow(parseFloat(mazeSettingsForm.hueShift.value), 2.0) * 20;
+  const hueStart = parseFloat(mazeSettingsForm.hueStart.value) * 360;
   const hueShiftType = mazeSettingsForm.hueType.value == "traversableDistance";
   const lightness = parseFloat(mazeSettingsForm.lightness.value) * 100 + "%";
   const cellSize = parseInt(mazeSettingsForm.cellSize.value);
@@ -812,7 +824,7 @@ function render() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   for (const key in map) {
     const cell = map[key];
-    ctx.fillStyle = "hsl(" + ((hueShiftType ? cell.hue : cell.order) * hueShift) + ", 100%, " + lightness + ")";
+    ctx.fillStyle = "hsl(" + ((hueShiftType ? cell.hue : cell.order) * hueShift + hueStart) + ", 100%, " + lightness + ")";
     ctx.fillRect((cell.x - minX) * tileSize + wallSize, (cell.y - minY) * tileSize + wallSize, cellSize, cellSize);
     if (cell.flags & DIR_FLAG[DOWN]) ctx.fillRect((cell.x - minX) * tileSize + wallSize, (cell.y - minY + 1) * tileSize, cellSize, wallSize);
     if (cell.flags & DIR_FLAG[RIGHT]) ctx.fillRect((cell.x - minX + 1) * tileSize, (cell.y - minY) * tileSize + wallSize, wallSize, cellSize);
@@ -925,7 +937,7 @@ mazeSettingsForm.addEventListener("input", function(event) {
     generate();
   } else if (event.target.name == "animationRate" || event.target.name == "slideShowRate") {
     updateUrl();
-  } else if (event.target.name == "hueShift" || event.target.name == "hueType" || event.target.name == "lightness" || event.target.name == "cellSize" || event.target.name == "wallSize") {
+  } else if (event.target.name == "hueShift" || event.target.name == "hueStart" ||event.target.name == "hueType" || event.target.name == "lightness" || event.target.name == "cellSize" || event.target.name == "wallSize") {
     presetMenu.selectedIndex = 0;
     updateUrl();
     render();
