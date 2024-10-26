@@ -200,10 +200,10 @@
       html {
         height: auto;
       }
-      body {
+      /* body {
         //flex-direction: column;
         //overflow: auto;
-      }
+      } */
       .settings-column {
         width: 100vw;
         top: 100vw;
@@ -552,6 +552,20 @@
       <button type="button" id="txtButton">.txt</button>
     </div>
   </form>
+  <h2>
+    Keybinds
+  </h2>
+  <ul>
+    <li>
+      <b>R</b>: regenerate maze
+    </li>
+    <li>
+      <b>S</b>: step through generation
+    </li>
+    <li>
+      <b>A</b>: randomize seed
+    </li>
+  </ul>
   <h2>
     Maze Algorithm
   </h2>
@@ -985,6 +999,11 @@ document.documentElement.addEventListener("keydown", function(event) {
       stepAlgorithm();
       render();
       break;
+    case "A":
+      randomizeSeed();
+      generate();
+      render();
+      break
   }
 });
 
